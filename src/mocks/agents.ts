@@ -1,0 +1,102 @@
+import { AgentInfo } from '../types';
+
+export const INITIAL_AGENTS_TEMPLATE: AgentInfo[] = [
+  {
+    id: 'planner-01',
+    name: 'Planner Agent',
+    roleTitle: 'Research Strategist',
+    roleCategory: 'planner',
+    status: 'completed',
+    currentAction: 'Deconstructed prompt into 5 thematic pillars & 15 queries',
+    elapsedSec: 12,
+    tokens: 1840,
+    cost: 0.012,
+    sourcesCount: 0,
+    findingsCount: 0,
+    avatarColor: 'bg-indigo-500'
+  },
+  {
+    id: 'researcher-alpha',
+    name: 'Researcher Alpha',
+    roleTitle: 'Market & Industry Research',
+    roleCategory: 'researcher',
+    status: 'running',
+    currentAction: 'Searching: AI healthcare adoption statistics 2026',
+    elapsedSec: 42,
+    tokens: 4120,
+    cost: 0.038,
+    sourcesCount: 3,
+    findingsCount: 7,
+    avatarColor: 'bg-blue-500'
+  },
+  {
+    id: 'researcher-beta',
+    name: 'Researcher Beta',
+    roleTitle: 'Academic & Clinical Trials',
+    roleCategory: 'researcher',
+    status: 'running',
+    currentAction: 'Analyzing research publications: Nature Medicine & NEJM',
+    elapsedSec: 38,
+    tokens: 3890,
+    cost: 0.034,
+    sourcesCount: 2,
+    findingsCount: 5,
+    avatarColor: 'bg-emerald-500'
+  },
+  {
+    id: 'researcher-gamma',
+    name: 'Researcher Gamma',
+    roleTitle: 'Technology & Algorithms',
+    roleCategory: 'researcher',
+    status: 'running',
+    currentAction: 'Indexing multi-modal vision-language diagnostic models',
+    elapsedSec: 31,
+    tokens: 3150,
+    cost: 0.029,
+    sourcesCount: 2,
+    findingsCount: 4,
+    avatarColor: 'bg-violet-500'
+  },
+  {
+    id: 'researcher-delta',
+    name: 'Researcher Delta',
+    roleTitle: 'Regulatory & Governance',
+    roleCategory: 'researcher',
+    status: 'pending',
+    currentAction: 'Queued for FDA clearance database audit',
+    elapsedSec: 0,
+    tokens: 0,
+    cost: 0.000,
+    sourcesCount: 0,
+    findingsCount: 0,
+    avatarColor: 'bg-amber-500'
+  },
+  {
+    id: 'writer-01',
+    name: 'Writer Agent',
+    roleTitle: 'Lead Report Synthesizer',
+    roleCategory: 'writer',
+    status: 'pending',
+    currentAction: 'Waiting for preliminary research findings to reach quota (60%)',
+    elapsedSec: 0,
+    tokens: 0,
+    cost: 0.000,
+    sourcesCount: 0,
+    findingsCount: 0,
+    avatarColor: 'bg-teal-500'
+  },
+  {
+    id: 'verifier-01',
+    name: 'Verifier Agent',
+    roleTitle: 'Fact-Check & Consistency Engine',
+    roleCategory: 'verifier',
+    status: 'pending',
+    currentAction: 'Standby: Pending draft sections from Writer Agent',
+    elapsedSec: 0,
+    tokens: 0,
+    cost: 0.000,
+    sourcesCount: 0,
+    findingsCount: 0,
+    avatarColor: 'bg-rose-500'
+  }
+];

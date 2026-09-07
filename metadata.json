@@ -1,0 +1,6 @@
+{
+  "name": "ResearchFlow",
+  "description": "Multi-Agent AI Research & Report Generator - Collaborative planning, multi-agent parallel web research, real-time synthesis, and automated claim verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,62 @@
+---
+description: Core ResearchFlow architecture, stack, and non-negotiable rules
+alwaysApply: true
+---
+
+# Project: ResearchFlow (Multi-Agent Research & Report Generator)
+
+Users enter a research topic, review an AI-generated plan, approve it, then watch a
+live multi-agent style run that writes and verifies a report section by section.
+
+Current phase is frontend-focused AI integration inside Next.js. Do not build a
+separate backend yet.
+
+## Current stack (do not substitute in this phase)
+
+- App: Next.js 15 App Router + React 19 + TypeScript
+- UI: existing ResearchFlow components, Tailwind, Motion, Lucide
+- State: React Context (`ResearchContext`) — do not add Redux/Zustand unless asked
+- AI: OpenRouter via `@openrouter/sdk`, called only from Next.js route handlers
+- Secrets: `.env.local` server vars only (`OPENROUTER_API_KEY`, `OPENROUTER_MODEL`)
+- Never use `NEXT_PUBLIC_OPENROUTER_API_KEY` or call OpenRouter from client components
+
+## Hard exclusions for this phase
+
+Do not add: FastAPI, LangGraph, CrewAI, Supabase, Redis, Celery/workers, Prisma,
+PostgreSQL, MongoDB, or a separate backend service.
+
+## Folder structure (current)
+
+```
+researchflow/src/
+  app/                 Next.js pages + api/ai/* route handlers
+  components/          UI by feature (landing, research, plan, live, report)
+  context/             ResearchContext state
+  lib/ai/              openrouter, prompts, helpers, mappers, client, logger
+  mocks/               mock sources/events/cost/history (keep hybrid)
+  types/               domain + AI types
+```
+
+## AI architecture rules
+
+1. All OpenRouter calls go through `src/lib/ai/openrouter.ts`.
+2. Prompts live in `src/lib/ai/prompts.ts` — not inline in React components.
+3. API routes under `src/app/api/ai/` validate input, call AI helpers, return JSON.
+4. Structured AI output must be validated before returning to the client.
+5. Every AI call should be logged (model, latency, success/failure, short preview).
+6. Live run: real AI for research/plan/improve/write/verify (sources, findings, timeline, tokens/cost from OpenRouter). Instant Demo / history seeds may still use mocks.
+
+## Product rules
+
+- Preserve existing UI design, routes, colors, typography, and layouts.
+- Prefer editing existing files over creating parallel `*_new` / `*_v2` files.
+- Loading, empty, and error states for every AI-backed action.
+- Never expose API keys, raw provider errors, or secrets to the browser.
+- Do not stub with `TODO` unless explicitly asked. Ship working code.
+
+## Working style
+
+- When a task spans multiple files, list files you will touch before coding.
+- Types first, then implementation.
+- After finishing, state what acceptance criteria were satisfied.
+---

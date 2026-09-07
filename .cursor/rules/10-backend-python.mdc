@@ -1,0 +1,37 @@
+---
+description: Future FastAPI backend rules — apply only when backend/ Python files exist
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# Backend rules (future phase)
+
+These rules apply only if/when a `backend/` Python service is added.
+Current ResearchFlow phase uses Next.js API routes instead — do not create FastAPI
+unless explicitly requested.
+
+## Python style
+
+- Type hints on every function signature and return value
+- Async by default for API handlers and DB sessions
+- No bare `except:`; raise domain exceptions with actionable messages
+- Config/thresholds in settings, not magic numbers in logic
+
+## FastAPI (when present)
+
+- Thin route handlers: validate → service → response
+- Services must not import FastAPI
+- Declare `response_model=`; no raw ORM returns
+- Long work (>2s) should become jobs with pollable status
+
+## Security
+
+- Never log API keys, full prompts with secrets, or raw uploaded file contents
+- Parameterised SQL only
+- Sanitize uploaded filenames; store under UUID paths
+
+## Tests
+
+- Happy-path + failure tests for services
+- Mock AI provider calls in tests — no real LLM hits in CI
+---
