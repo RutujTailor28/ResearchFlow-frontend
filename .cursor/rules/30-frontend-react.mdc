@@ -1,0 +1,50 @@
+---
+description: React/Next.js UI rules for ResearchFlow — preserve design, use existing state
+globs: researchflow/src/**/*.ts,researchflow/src/**/*.tsx,src/**/*.ts,src/**/*.tsx
+alwaysApply: false
+---
+
+# Frontend rules
+
+## TypeScript
+
+- Prefer explicit types for AI payloads in `src/types/` and `src/types/ai.ts`
+- Do not use `any` for API responses; narrow unknown JSON safely
+- Client AI helpers live in `src/lib/ai/client.ts` and only talk to `/api/ai/*`
+
+## Preserve existing UI
+
+- Do not redesign landing, dashboard, plan, live, or report screens
+- Keep existing colors, typography, spacing, navigation, and animations
+- Prefer wiring AI into existing buttons/states over new layouts
+- Cards/components should reuse current patterns (`#1B61EB`, `#F2FAFF`, etc.)
+
+## State
+
+- Use `ResearchContext` for research brief, plan, live run, and report data
+- Do not add Redux/Zustand unless explicitly requested
+- Persist AI results in context for navigation between screens
+- Keep mock data for sources, timeline, cost, tokens, and history
+
+## AI UX requirements
+
+Every AI action needs:
+
+1. **Loading** — disable button, show status text (e.g. "Creating your research plan...")
+2. **Success** — populate existing UI with structured result
+3. **Error** — friendly message, no internal/provider leakage
+
+Show AI activity (model + success/failure) via the existing AI Activity Log where present.
+
+## Component guidance
+
+- Feature folders under `src/components/{landing,research,plan,live,report,...}`
+- Prefer editing existing components over creating duplicates
+- Split files that become hard to maintain; avoid drive-by refactors
+
+## Forbidden
+
+- Inline OpenRouter calls in components
+- Replacing mock timeline orchestration with LangGraph/CrewAI
+- Storing secrets in `localStorage` / `sessionStorage`
+---

@@ -1,0 +1,27 @@
+---
+description: Future database/pgvector rules — apply only when backend models/migrations exist
+globs: backend/app/models/**/*.py,backend/alembic/**/*.py,backend/app/database.py
+alwaysApply: false
+---
+
+# Database rules (future phase)
+
+Do not add PostgreSQL/pgvector/Prisma/Supabase during the current Next.js AI phase
+unless explicitly requested. These rules apply when a real backend database is introduced.
+
+## Principles
+
+- UUID primary keys and `created_at` timestamps by default
+- Explicit foreign keys; cascade only where children cannot exist alone
+- Timestamps as UTC timestamptz
+- Prefer string + CHECK enums over brittle native enum migrations
+- Every schema change ships with a reversible migration
+
+## If building Document Intelligence RAG later
+
+Canonical tables may include: `users`, `workspaces`, `documents`, `chunks`,
+`conversations`, `messages`, `jobs`, `ai_usage`.
+
+Retrieval must stay workspace-scoped. Chunks used for citations need page/section
+metadata — never invent page numbers in the model layer.
+---

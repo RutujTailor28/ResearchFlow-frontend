@@ -1,0 +1,59 @@
+---
+description: OpenRouter AI integration rules for ResearchFlow plan/write/verify flows
+globs: researchflow/src/lib/ai/**/*.ts,researchflow/src/app/api/ai/**/*.ts,src/lib/ai/**/*.ts,src/app/api/ai/**/*.ts
+alwaysApply: false
+---
+
+# AI integration rules
+
+## Provider layer
+
+`src/lib/ai/openrouter.ts` is the only place the OpenRouter client is constructed.
+
+- Read `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` from server env
+- Fallback model: `openrouter/free` if unset
+- Return content plus model metadata (`requestedModel`, `model`, `durationMs`)
+- Log every call via `src/lib/ai/logger.ts`
+- Never hardcode API keys or ship secrets to the client
+
+## Prompts
+
+- Builders live in `src/lib/ai/prompts.ts`:
+  `createPlannerPrompt`, `createPlanImprovementPrompt`, `createWriterPrompt`,
+  `createVerifierPrompt`
+- Keep depth limits: quick ≤ 3, standard ≤ 5, deep ≤ 8 sections
+- Ask for JSON only; validate with helpers before responding
+
+## API routes
+
+Implement/maintain:
+
+- `POST /api/ai/plan`
+- `POST /api/ai/improve-plan`
+- `POST /api/ai/write`
+- `POST /api/ai/verify`
+
+Each route must validate input, call OpenRouter securely, handle errors, and return
+structured JSON with optional `meta` (model, duration, preview).
+
+## Structured output
+
+- Prefer JSON mode, with safe parse + non-JSON fallback retry
+- Never trust raw model text without schema/normalization checks
+- On invalid JSON, return a clean API error — do not crash the UI
+
+## Logging
+
+Server terminal and UI activity log should show:
+
+- which operation ran (`plan` / `write` / `verify`…)
+- which model OpenRouter actually used
+- success vs error
+- latency and a short preview of successful output
+
+## Forbidden
+
+- Calling OpenRouter from React client components
+- `NEXT_PUBLIC_` AI secrets
+- Generating entire multi-section reports in one giant request (write section-by-section)
+---
